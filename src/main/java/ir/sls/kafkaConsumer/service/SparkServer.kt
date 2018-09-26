@@ -1,8 +1,8 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
-import ir.sls.aggregator.config.ReadConfig
-import ir.sls.aggregator.metric.InitMeter.getPerMinuteKafka
-import ir.sls.aggregator.util.gson
+import ir.sls.kafkaConsumer.config.ReadConfig
+import ir.sls.kafkaConsumer.metric.InitMeter.getPerMinuteKafka
+import ir.sls.kafkaConsumer.util.gson
 import spark.Spark.port
 import spark.kotlin.get
 

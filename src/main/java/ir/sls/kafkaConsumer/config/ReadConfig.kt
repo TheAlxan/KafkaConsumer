@@ -1,8 +1,8 @@
-package ir.sls.aggregator.config
+package ir.sls.kafkaConsumer.config
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.config.ConfigRenderOptions
-import ir.sls.aggregator.util.gson
+import ir.sls.kafkaConsumer.util.gson
 
 object ReadConfig
 {

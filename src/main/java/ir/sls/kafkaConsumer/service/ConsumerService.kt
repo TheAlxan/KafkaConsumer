@@ -1,9 +1,9 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
-import ir.sls.aggregator.config.KafkaFactory
-import ir.sls.aggregator.config.ReadConfig
-import ir.sls.aggregator.metric.InitMeter
-import ir.sls.aggregator.util.gson
+import ir.sls.kafkaConsumer.config.KafkaFactory
+import ir.sls.kafkaConsumer.config.ReadConfig
+import ir.sls.kafkaConsumer.metric.InitMeter
+import ir.sls.kafkaConsumer.util.gson
 import kafka.common.KafkaException
 import mu.KLogger
 import mu.KotlinLogging

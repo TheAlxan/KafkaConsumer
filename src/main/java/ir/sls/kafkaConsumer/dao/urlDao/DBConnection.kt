@@ -1,6 +1,6 @@
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException
 import com.zaxxer.hikari.HikariDataSource
-import ir.sls.aggregator.config.ReadConfig
+import ir.sls.kafkaConsumer.config.ReadConfig
 import mu.KotlinLogging
 import java.net.ConnectException
 import java.sql.Connection

@@ -1,8 +1,6 @@
-package ir.sls.aggregator
+package ir.sls.kafkaConsumer
 
-import ir.sls.aggregator.model.DataRecord
-import ir.sls.aggregator.service.UrlConsumerService
-import ir.sls.aggregator.service.UrlDatabaseService
+import ir.sls.kafkaConsumer.model.DataRecord
 import org.assertj.core.api.Assertions
 import org.junit.After
 import org.junit.Before

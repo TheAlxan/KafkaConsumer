@@ -1,6 +1,6 @@
-package ir.sls.aggregator.dao.urlDao
+package ir.sls.kafkaConsumer.dao.urlDao
 
-import ir.sls.aggregator.model.DataRecord
+import ir.sls.kafkaConsumer.model.DataRecord
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException
 import mu.KotlinLogging
 import org.apache.commons.codec.digest.DigestUtils

@@ -1,6 +1,6 @@
-package ir.sls.aggregator.dao.urlDao
+package ir.sls.kafkaConsumer.dao.urlDao
 
-import ir.sls.aggregator.model.DataRecord
+import ir.sls.kafkaConsumer.model.DataRecord
 import org.apache.commons.codec.digest.DigestUtils
 import java.sql.Connection
 import java.sql.PreparedStatement

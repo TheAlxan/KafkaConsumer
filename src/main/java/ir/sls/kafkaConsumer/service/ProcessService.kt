@@ -1,4 +1,4 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
 
 import mu.KLogger
@@ -12,10 +12,6 @@ abstract class ProcessService<T>{
 
     fun setDatabase(databaseService: DatabaseService<T>){
         this.databaseService = databaseService
-    }
-
-    fun health(){
-        println("Healthy")
     }
 
     abstract  fun processData(recordsArray: ArrayList<T>) : Boolean

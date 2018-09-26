@@ -1,4 +1,4 @@
-package ir.sls.aggregator.util
+package ir.sls.kafkaConsumer.util
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

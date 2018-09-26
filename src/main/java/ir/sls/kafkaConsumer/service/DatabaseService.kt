@@ -1,4 +1,4 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
 import mu.KotlinLogging
 

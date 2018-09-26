@@ -1,4 +1,4 @@
-package ir.sls.aggregator.config
+package ir.sls.kafkaConsumer.config
 
 import kafka.common.KafkaException
 import mu.KotlinLogging

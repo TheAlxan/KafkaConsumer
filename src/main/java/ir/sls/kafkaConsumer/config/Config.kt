@@ -1,4 +1,4 @@
-package ir.sls.aggregator.config
+package ir.sls.kafkaConsumer.config
 
 /**
  * @author Mohammad Hossein Liaghat Email: mohamadliaghat@gmail.com
@@ -9,7 +9,7 @@ package ir.sls.aggregator.config
 data class Config(val dataBase: DataBase, val kafka: Kafka, val spark: Spark)
 
 data class DataBase(
-        val jdbcUrl: String = "jdbc:mysql://localhost:3306/aggregator",
+        val jdbcUrl: String = "jdbc:mysql://localhost:3306/kafkaConsumer",
         val username: String = "root",
         val password: String ="123",
         val driver: String = "com.mysql.jdbc.Driver",

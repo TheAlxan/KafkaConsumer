@@ -1,10 +1,10 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
-import ir.sls.aggregator.config.ReadConfig
-import ir.sls.aggregator.dao.urlDao.NormalizedUrlDao
-import ir.sls.aggregator.dao.urlDao.OriginalUrlDao
-import ir.sls.aggregator.metric.InitMeter
-import ir.sls.aggregator.model.DataRecord
+import ir.sls.kafkaConsumer.config.ReadConfig
+import ir.sls.kafkaConsumer.dao.urlDao.NormalizedUrlDao
+import ir.sls.kafkaConsumer.dao.urlDao.OriginalUrlDao
+import ir.sls.kafkaConsumer.metric.InitMeter
+import ir.sls.kafkaConsumer.model.DataRecord
 import mu.KotlinLogging
 import java.sql.SQLException
 

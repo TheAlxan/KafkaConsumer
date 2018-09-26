@@ -1,4 +1,4 @@
-package ir.sls.aggregator
+package ir.sls.kafkaConsumer
 
 import java.security.SecureRandom
 

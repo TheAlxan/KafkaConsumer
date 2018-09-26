@@ -1,4 +1,4 @@
-package ir.sls.aggregator
+package ir.sls.kafkaConsumer
 
 import org.h2.tools.RunScript
 import org.junit.After

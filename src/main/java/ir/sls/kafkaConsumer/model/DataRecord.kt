@@ -1,4 +1,4 @@
-package ir.sls.aggregator.model
+package ir.sls.kafkaConsumer.model
 
 /**
  * The class of our data

@@ -1,7 +1,6 @@
-package ir.sls.aggregator.metric
+package ir.sls.kafkaConsumer.metric
 
 import com.codahale.metrics.MetricRegistry
-import ir.sls.aggregator.config.ReadConfig
 
 /**
  * @author Aryan Gholamlou

@@ -1,6 +1,6 @@
-package ir.sls.aggregator.service
+package ir.sls.kafkaConsumer.service
 
-import ir.sls.aggregator.model.DataRecord
+import ir.sls.kafkaConsumer.model.DataRecord
 import java.util.*
 import kotlin.collections.ArrayList
 
