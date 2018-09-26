@@ -17,5 +17,5 @@ fun main(args: Array<String>)
     val urlConsumerService = UrlConsumerService()
     urlConsumerService.setProcess(urlProcessService)
     urlProcessService.health()
-    UrlConsumerService().start()
+    urlConsumerService.start()
 }
