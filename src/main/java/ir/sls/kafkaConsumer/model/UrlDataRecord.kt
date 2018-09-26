@@ -6,4 +6,4 @@ package ir.sls.kafkaConsumer.model
  *
  */
 // Amin: originalUrls should be Set
-data class DataRecord(var normalizedUrl:String, var originalUrls:ArrayList<String>, var count:Int)
+data class UrlDataRecord(var normalizedUrl:String, var originalUrls:ArrayList<String>, var count:Int)

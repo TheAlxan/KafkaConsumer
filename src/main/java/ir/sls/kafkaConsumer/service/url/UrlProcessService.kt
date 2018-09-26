@@ -1,18 +1,20 @@
-package ir.sls.kafkaConsumer.service
+package ir.sls.kafkaConsumer.service.url
 
-import ir.sls.kafkaConsumer.model.DataRecord
+import ir.sls.kafkaConsumer.model.UrlDataRecord
+import ir.sls.kafkaConsumer.service.base.DatabaseService
+import ir.sls.kafkaConsumer.service.base.ProcessService
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UrlProcessService : ProcessService<DataRecord>(){
+class UrlProcessService(val urlDatabaseService: DatabaseService<UrlDataRecord>) : ProcessService<UrlDataRecord>(urlDatabaseService){
 
-    fun aggregate(dataRecords: ArrayList<DataRecord>): ArrayList<DataRecord> {
-        var heap = hashMapOf<String, DataRecord>()
+    fun aggregate(dataRecords: ArrayList<UrlDataRecord>): ArrayList<UrlDataRecord> {
+        var heap = hashMapOf<String, UrlDataRecord>()
         dataRecords.forEach {
             if (heap[it.normalizedUrl] == null)
                 heap[it.normalizedUrl] = it
             else {
-                var dataRecord: DataRecord = heap[it.normalizedUrl]!!
+                var dataRecord: UrlDataRecord = heap[it.normalizedUrl]!!
                 dataRecord.count += it.count
                 it.originalUrls.forEach {
                     dataRecord.originalUrls.add(it)
@@ -20,17 +22,17 @@ class UrlProcessService : ProcessService<DataRecord>(){
                 heap[it.normalizedUrl] = dataRecord
             }
         }
-        var recordsArray:ArrayList<DataRecord> = arrayListOf()
+        var recordsArray:ArrayList<UrlDataRecord> = arrayListOf()
         heap.forEach{
             recordsArray.add(it.value)
         }
         return recordsArray
     }
 
-    override fun processData(recordsArray: ArrayList<DataRecord>): Boolean {
+    override fun processData(recordsArray: ArrayList<UrlDataRecord>): Boolean {
 
         logger.info("Got ${recordsArray.size} records")
-        val heap: ArrayList<DataRecord> = aggregate(recordsArray)
+        val heap: ArrayList<UrlDataRecord> = aggregate(recordsArray)
         val t1 = Date().time
         val saveSuccess = databaseService.persistData(heap)
         logger.info("Saved :: $saveSuccess")

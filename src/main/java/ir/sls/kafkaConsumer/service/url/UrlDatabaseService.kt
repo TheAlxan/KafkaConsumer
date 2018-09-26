@@ -1,10 +1,11 @@
-package ir.sls.kafkaConsumer.service
+package ir.sls.kafkaConsumer.service.url
 
 import ir.sls.kafkaConsumer.config.ReadConfig
 import ir.sls.kafkaConsumer.dao.urlDao.NormalizedUrlDao
 import ir.sls.kafkaConsumer.dao.urlDao.OriginalUrlDao
 import ir.sls.kafkaConsumer.metric.InitMeter
-import ir.sls.kafkaConsumer.model.DataRecord
+import ir.sls.kafkaConsumer.model.UrlDataRecord
+import ir.sls.kafkaConsumer.service.base.DatabaseService
 import mu.KotlinLogging
 import java.sql.SQLException
 
@@ -16,7 +17,7 @@ import java.sql.SQLException
  * @author Reza Varmazyari
  */
 
-class UrlDatabaseService : DatabaseService<DataRecord>()
+class UrlDatabaseService : DatabaseService<UrlDataRecord>()
 {
 
     private val logger = KotlinLogging.logger {}
@@ -42,7 +43,7 @@ class UrlDatabaseService : DatabaseService<DataRecord>()
     }
 
 
-    override fun persistData(heap: ArrayList<DataRecord>): Boolean
+    override fun persistData(heap: ArrayList<UrlDataRecord>): Boolean
     {
 
 
@@ -58,13 +59,13 @@ class UrlDatabaseService : DatabaseService<DataRecord>()
                 timeOut = 1000
             Thread.sleep(timeOut)
         }
+        val normalizedUrlDao = NormalizedUrlDao(con)
+        val originalUrlDao = OriginalUrlDao(con)
         try
         {
             con?.autoCommit = false
-            NormalizedUrlDao.setConnection(con)
-            NormalizedUrlDao.persist(heap)
-            OriginalUrlDao.setConnection(con)
-            OriginalUrlDao.persist(heap)
+            normalizedUrlDao.persist(heap)
+            originalUrlDao.persist(heap)
             con?.commit()
             InitMeter.markDatabaseWrite(heap.size.toLong())
             allSaveSuccess = true

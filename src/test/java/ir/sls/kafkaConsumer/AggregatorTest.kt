@@ -1,6 +1,6 @@
 package ir.sls.kafkaConsumer
 
-import ir.sls.kafkaConsumer.model.DataRecord
+import ir.sls.kafkaConsumer.model.UrlDataRecord
 import org.assertj.core.api.Assertions
 import org.junit.After
 import org.junit.Before
@@ -19,19 +19,19 @@ class AggregatorTest: DatabaseTest("/CreateTables.sql") {
         super.tearDown()
     }
 
-    fun getDataForAggregation():ArrayList<DataRecord>{
-        val dataRecord1 = DataRecord("normalizedUrl1", arrayListOf("orginalUrl1"), 1)
-        val dataRecord2 = DataRecord("normalizedUrl2", arrayListOf("orginalUrl2", "orginalUrl3"), 2)
-        val dataRecord3 = DataRecord("normalizedUrl2", arrayListOf("orginalUrl4", "orginalUrl3"), 2)
-        val dataRecord4 = DataRecord("normalizedUrl2", arrayListOf("orginalUrl5", "orginalUrl3"), 2)
+    fun getDataForAggregation():ArrayList<UrlDataRecord>{
+        val dataRecord1 = UrlDataRecord("normalizedUrl1", arrayListOf("orginalUrl1"), 1)
+        val dataRecord2 = UrlDataRecord("normalizedUrl2", arrayListOf("orginalUrl2", "orginalUrl3"), 2)
+        val dataRecord3 = UrlDataRecord("normalizedUrl2", arrayListOf("orginalUrl4", "orginalUrl3"), 2)
+        val dataRecord4 = UrlDataRecord("normalizedUrl2", arrayListOf("orginalUrl5", "orginalUrl3"), 2)
         return arrayListOf(dataRecord1,dataRecord2,dataRecord3,dataRecord4)
     }
 
     @Test
     fun testAggregation(){
-        var heap = hashMapOf<String, DataRecord>()
-        val dataRecord1 = DataRecord("normalizedUrl1", arrayListOf("orginalUrl1"), 1)
-        val dataRecord2 = DataRecord("normalizedUrl2", arrayListOf("orginalUrl2", "orginalUrl3", "orginalUrl4", "orginalUrl3", "orginalUrl5", "orginalUrl3"), 6)
+        var heap = hashMapOf<String, UrlDataRecord>()
+        val dataRecord1 = UrlDataRecord("normalizedUrl1", arrayListOf("orginalUrl1"), 1)
+        val dataRecord2 = UrlDataRecord("normalizedUrl2", arrayListOf("orginalUrl2", "orginalUrl3", "orginalUrl4", "orginalUrl3", "orginalUrl5", "orginalUrl3"), 6)
         heap["normalizedUrl1"] = dataRecord1
         heap["normalizedUrl2"] = dataRecord2
 

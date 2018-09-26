@@ -1,6 +1,6 @@
 package ir.sls.kafkaConsumer.dao.urlDao
 
-import ir.sls.kafkaConsumer.model.DataRecord
+import ir.sls.kafkaConsumer.model.UrlDataRecord
 import org.apache.commons.codec.digest.DigestUtils
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -12,16 +12,16 @@ import java.sql.PreparedStatement
  *
  */
 
-object OriginalUrlDao {
+class OriginalUrlDao {
     var con: Connection? = null
     private var preparedStatement:PreparedStatement? = null
 
-    fun setConnection(conn: Connection?) {
-        con = conn
+    constructor(con: Connection){
+        this.con = con
         preparedStatement = con?.prepareStatement("INSERT INTO orginalUrl (url,hash,normalizedUrl) VALUES (? , ? , ?) on duplicate key update hash = hash;")
     }
 
-    fun persist(heap:ArrayList<DataRecord>){
+    fun persist(heap:ArrayList<UrlDataRecord>){
         heap.forEach{
             it.originalUrls.forEach { itt:String ->
                 preparedStatement?.setString(1,itt)

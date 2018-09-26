@@ -1,8 +1,9 @@
-package ir.sls.kafkaConsumer.service
+package ir.sls.kafkaConsumer.service.base
 
 import ir.sls.kafkaConsumer.config.KafkaFactory
 import ir.sls.kafkaConsumer.config.ReadConfig
 import ir.sls.kafkaConsumer.metric.InitMeter
+import ir.sls.kafkaConsumer.service.SparkServer
 import ir.sls.kafkaConsumer.util.gson
 import kafka.common.KafkaException
 import mu.KLogger
@@ -21,18 +22,21 @@ import kotlin.collections.ArrayList
 abstract class ConsumerService<T>{
     val logger:KLogger = KotlinLogging.logger {}
     private var dataType:Class<T>
-    lateinit var processService:ProcessService<T>
+    lateinit var processService: ProcessService<T>
 
-    constructor(dataType:Class<T>){
+    constructor(dataType:Class<T>, processService: ProcessService<T>){
         this.dataType = dataType
-    }
-
-    fun setProcess(processService:ProcessService<T>){
         this.processService = processService
     }
 
+/*
+    fun setProcess(processService: ProcessService<T>){
+        this.processService = processService
+    }
+*/
+
     fun start() {
-        metricService()
+        SparkServer().metricService()
         var saveSuccess = true
         val consumer = KafkaFactory.createKafkaConsumer() ?: throw IllegalStateException()
         consumer?.subscribe(arrayListOf(ReadConfig.config.kafka.subscription))

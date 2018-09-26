@@ -1,6 +1,6 @@
 package ir.sls.kafkaConsumer.dao.urlDao
 
-import ir.sls.kafkaConsumer.model.DataRecord
+import ir.sls.kafkaConsumer.model.UrlDataRecord
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException
 import mu.KotlinLogging
 import org.apache.commons.codec.digest.DigestUtils
@@ -12,18 +12,20 @@ import java.sql.PreparedStatement
  * and then when the batch reaches to a specified value , persists the batch to database
  * @author Reza Varmazyari
  */
-object NormalizedUrlDao {
+class NormalizedUrlDao {
     private val logger = KotlinLogging.logger{}
 
     var con: Connection? = null
     private var preparedStatement:PreparedStatement? = null
 
-    fun setConnection(conn: Connection?) {
-        con = conn
+    constructor(con: Connection){
+        this.con = con
         preparedStatement = con?.prepareStatement("INSERT INTO normalizedUrl (hash,url,count) VALUES (? , ? , ?) on duplicate key update count = count + 1 ;")
+
     }
 
-    fun persist(heap:ArrayList<DataRecord>){
+
+    fun persist(heap:ArrayList<UrlDataRecord>){
         heap.forEach{
             val hash = DigestUtils.sha1Hex(it.normalizedUrl)
             var normalizedUrl = it.normalizedUrl.replace("\"","")

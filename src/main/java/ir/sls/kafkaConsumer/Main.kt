@@ -1,6 +1,6 @@
-import ir.sls.kafkaConsumer.service.UrlConsumerService
-import ir.sls.kafkaConsumer.service.UrlDatabaseService
-import ir.sls.kafkaConsumer.service.UrlProcessService
+import ir.sls.kafkaConsumer.service.url.UrlConsumerService
+import ir.sls.kafkaConsumer.service.url.UrlDatabaseService
+import ir.sls.kafkaConsumer.service.url.UrlProcessService
 
 /**
  * KDocs Syntax by Aryan Gholamlou
@@ -12,9 +12,7 @@ import ir.sls.kafkaConsumer.service.UrlProcessService
 fun main(args: Array<String>)
 {
     val urlDatabaseService = UrlDatabaseService()
-    val urlProcessService = UrlProcessService()
-    urlProcessService.setDatabase(urlDatabaseService)
-    val urlConsumerService = UrlConsumerService()
-    urlConsumerService.setProcess(urlProcessService)
+    val urlProcessService = UrlProcessService(urlDatabaseService)
+    val urlConsumerService = UrlConsumerService(urlProcessService)
     urlConsumerService.start()
 }

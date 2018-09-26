@@ -11,15 +11,15 @@ import spark.kotlin.get
  * @author Mohammad Hossein Liaghat E-mail : mohamadliaghat@gmail.com
  * @return json of metrics
  */
+class SparkServer {
+    fun metricService() {
+        port(ReadConfig.config.spark.port)
 
-fun metricService()
-{
-    port(ReadConfig.config.spark.port)
+        get("/metric") {
 
-    get("/metric") {
+            val metricConfig: String = gson.toJson(getPerMinuteKafka())
 
-        val metricConfig: String = gson.toJson(getPerMinuteKafka())
-
-        metricConfig
+            metricConfig
+        }
     }
 }
