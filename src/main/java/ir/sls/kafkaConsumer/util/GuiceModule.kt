@@ -13,7 +13,7 @@ class GuiceModule : AbstractModule() {
 //        bind(UrlDataRecord::class.java).annotatedWith(Names.named("foo")).to(UrlDataRecord::class.java)
 //        bind(TypeLiteral<DatabaseService<UrlDataRecord>> {})
 //        bind(UrlDatabaseService::class.java)
-
-
+//        bind(DatabaseService::class.java).to(DatabaseService<UrlDataRecord>)
+        bind(object : TypeLiteral<DatabaseService<UrlDataRecord>>() {}).to(UrlDatabaseService::class.java)
     }
 }

@@ -50,9 +50,9 @@ class UrlDatabaseService : DatabaseService<UrlDataRecord>()
         var allSaveSuccess = false
 
         var con = DBConnection.getConnection()
+        var timeOut: Long = ReadConfig.config.dataBase.databaseConnectionTimeout
         while (con == null)
         {
-            var timeOut: Long = ReadConfig.config.dataBase.databaseConnectionTimeout
             con = DBConnection.getConnection()
             timeOut *= 2
             if (timeOut == ReadConfig.config.dataBase.databaseConnectionMaxTimeout)
