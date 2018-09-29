@@ -1,12 +1,14 @@
 package ir.sls.kafkaConsumer.service.url
 
+import com.google.inject.Inject
 import ir.sls.kafkaConsumer.model.UrlDataRecord
 import ir.sls.kafkaConsumer.service.base.DatabaseService
 import ir.sls.kafkaConsumer.service.base.ProcessService
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UrlProcessService(val urlDatabaseService: DatabaseService<UrlDataRecord>) : ProcessService<UrlDataRecord>(urlDatabaseService){
+class UrlProcessService @Inject constructor(urlDatabaseService: DatabaseService<UrlDataRecord>)
+    : ProcessService<UrlDataRecord>(urlDatabaseService){
 
     fun aggregate(dataRecords: ArrayList<UrlDataRecord>): ArrayList<UrlDataRecord> {
         var heap = hashMapOf<String, UrlDataRecord>()

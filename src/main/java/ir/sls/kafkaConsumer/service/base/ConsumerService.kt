@@ -1,5 +1,6 @@
 package ir.sls.kafkaConsumer.service.base
 
+import com.google.inject.Inject
 import ir.sls.kafkaConsumer.config.KafkaFactory
 import ir.sls.kafkaConsumer.config.ReadConfig
 import ir.sls.kafkaConsumer.metric.InitMeter
@@ -22,18 +23,12 @@ import kotlin.collections.ArrayList
 abstract class ConsumerService<T>{
     val logger:KLogger = KotlinLogging.logger {}
     private var dataType:Class<T>
-    lateinit var processService: ProcessService<T>
+    var processService: ProcessService<T>
 
     constructor(dataType:Class<T>, processService: ProcessService<T>){
         this.dataType = dataType
         this.processService = processService
     }
-
-/*
-    fun setProcess(processService: ProcessService<T>){
-        this.processService = processService
-    }
-*/
 
     fun start() {
         SparkServer().metricService()

@@ -1,9 +1,13 @@
 package ir.sls.kafkaConsumer
 
 import ir.sls.kafkaConsumer.model.UrlDataRecord
+import ir.sls.kafkaConsumer.service.base.ProcessService
+import ir.sls.kafkaConsumer.service.url.UrlDatabaseService
+import ir.sls.kafkaConsumer.service.url.UrlProcessService
 import org.assertj.core.api.Assertions
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import java.sql.DriverManager
 
@@ -29,19 +33,22 @@ class AggregatorTest: DatabaseTest("/CreateTables.sql") {
 
     @Test
     fun testAggregation(){
-        var heap = hashMapOf<String, UrlDataRecord>()
+        var heap = arrayListOf<UrlDataRecord>()
         val dataRecord1 = UrlDataRecord("normalizedUrl1", arrayListOf("orginalUrl1"), 1)
         val dataRecord2 = UrlDataRecord("normalizedUrl2", arrayListOf("orginalUrl2", "orginalUrl3", "orginalUrl4", "orginalUrl3", "orginalUrl5", "orginalUrl3"), 6)
-        heap["normalizedUrl1"] = dataRecord1
-        heap["normalizedUrl2"] = dataRecord2
+        heap.add(dataRecord1)
+        heap.add(dataRecord2)
 
         //Assertions.assertThat(heap).isEqualTo(AggregatorService.aggregate(getDataForAggregation()))
     }
 
+    @Ignore
     @Test
     fun testDatabase(){
-        //UrlDatabaseService.setProperties(jdbcUrl,username,password,driver)
-        //UrlConsumerService().processData(getDataForAggregation())
+        val urlDatabaseService = UrlDatabaseService();
+        urlDatabaseService.setProperties(jdbcUrl,username,password,driver)
+        val urlProcessService = UrlProcessService(urlDatabaseService)
+        urlProcessService.processData(getDataForAggregation())
 
         val con = DriverManager.getConnection(jdbcUrl,username,password)
         val preparedStatement = con.createStatement()
