@@ -10,6 +10,7 @@ import kafka.common.KafkaException
 import mu.KLogger
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerRecords
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.time.Duration
 import kotlin.collections.ArrayList
 
@@ -20,49 +21,48 @@ import kotlin.collections.ArrayList
  * @author Aryan Gholamlou , Reza Varmazyari , Email : Aryan.gholamlou@gmail.com ,  the.alxan@gmail.com
  */
 
-abstract class ConsumerService<T>{
-    val logger:KLogger = KotlinLogging.logger {}
-    private var dataType:Class<T>
+abstract class ConsumerService<T> {
+    val logger: KLogger = KotlinLogging.logger {}
+    private var dataType: Class<T>
+    private lateinit var consumer: KafkaConsumer<String, String>
     var processService: ProcessService<T>
-
-    constructor(dataType:Class<T>, processService: ProcessService<T>){
+    var stop: Boolean = false
+    constructor(dataType: Class<T>, processService: ProcessService<T>) {
         this.dataType = dataType
         this.processService = processService
+    }
+
+    fun pollFromKafka(): ConsumerRecords<String, String> {
+        return consumer!!.poll(Duration.ofMinutes(1))
     }
 
     fun start() {
         SparkServer().metricService()
         var saveSuccess = true
-        val consumer = KafkaFactory.createKafkaConsumer() ?: throw IllegalStateException()
-        consumer?.subscribe(arrayListOf(ReadConfig.config.kafka.subscription))
-        var records: ConsumerRecords<String, String> = ConsumerRecords.empty()
-        while (true) {
-            var recordsArray:ArrayList<T> = arrayListOf()
+        consumer = KafkaFactory.createKafkaConsumer() ?: throw IllegalStateException()
+        consumer.subscribe(arrayListOf(ReadConfig.config.kafka.subscription))
+        var recordsArray: List<T> = arrayListOf()
+        var i = 0L
+        while (!stop) {
             if (saveSuccess) {
                 try {
-                    records = consumer!!.poll(Duration.ofMinutes(1))
-                    InitMeter.markKafkaRead(records.count().toLong())
+                    recordsArray = pollFromKafka().apply {
+                        InitMeter.markKafkaRead(count().toLong())
+                    }.map {
+                        if (i++ % 1000L == 0L)
+                            logger.info("Partition :: ${it.partition()} , Offset :: ${it.offset()}")
+                        gson.fromJson<T>(it.value(), dataType)
+                    }
                 } catch (e: KafkaException) {
                     logger.error(e) { "Kafka Error" }
                 }
             }
-            records.map { record ->
-                val dataRecord: T = gson.fromJson<T>(record.value(),dataType)
-                recordsArray.add(dataRecord)
-                if (recordsArray.size == 1)
-                    logger.info("Partition :: ${record.partition()} , Offset :: ${record.offset()}")
-            }
-            if (recordsArray.size > 0) {
-
+            if (recordsArray.isNotEmpty()) {
                 saveSuccess = processService.processData(recordsArray)
-                if (saveSuccess) {
-                    records =  ConsumerRecords.empty()
+                if (saveSuccess)
                     consumer?.commitSync()
-                }
             }
 
         }
     }
-
-
 }

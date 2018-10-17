@@ -7,11 +7,11 @@ import mu.KLogger
 import mu.KotlinLogging
 import kotlin.collections.ArrayList
 
-abstract class ProcessService<T> @Inject constructor(val databaseService: DatabaseService<T>) {
+abstract class ProcessService<T> @Inject constructor(var databaseService: DatabaseService<T>) {
 
     val logger: KLogger = KotlinLogging.logger {}
 
-    abstract  fun processData(recordsArray: ArrayList<T>) : Boolean
+    abstract  fun processData(recordsArray: List<T>) : Boolean
 
 
 }

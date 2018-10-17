@@ -1,7 +1,5 @@
 package ir.sls.kafkaConsumer.model
 
-import com.google.inject.Inject
-
 /**
  * The class of our data
  * @author Aryan Gholamlou

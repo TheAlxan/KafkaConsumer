@@ -14,7 +14,7 @@ data class DataBase(
         val password: String ="123",
         val driver: String = "com.mysql.jdbc.Driver",
         val maximumPoolSize: Int = 50,
-        val databaseConnectionTimeout: Long = 1000L,
+//        val databaseConnectionTimeout: Long = 1000L,
         val databaseConnectionMaxTimeout: Long = 64000L
 )
 

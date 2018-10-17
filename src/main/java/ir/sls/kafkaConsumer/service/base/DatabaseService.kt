@@ -6,5 +6,5 @@ abstract class DatabaseService<T>
 {
     private val logger = KotlinLogging.logger {}
 
-    abstract fun persistData(heap: ArrayList<T>): Boolean
+    abstract fun persistData(heap: List<T>): Boolean
 }

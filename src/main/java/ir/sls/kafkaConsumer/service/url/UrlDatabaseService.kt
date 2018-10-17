@@ -22,15 +22,21 @@ class UrlDatabaseService : DatabaseService<UrlDataRecord>()
 
     private val logger = KotlinLogging.logger {}
 
-
-    var jdbcUrl = ReadConfig.config.dataBase.jdbcUrl
-    var username = ReadConfig.config.dataBase.username
-    var password = ReadConfig.config.dataBase.password
-    var driver = ReadConfig.config.dataBase.driver
+    private var jdbcUrl:String = ""
+    private var username:String = ""
+    private var password:String = ""
+    private var driver:String = ""
+    private fun readConfig(){
+        jdbcUrl = ReadConfig.config.dataBase.jdbcUrl
+        username = ReadConfig.config.dataBase.username
+        password = ReadConfig.config.dataBase.password
+        driver = ReadConfig.config.dataBase.driver
+    }
 
     init
     {
-        DBConnection.setProperties(driver, jdbcUrl, username, password)
+        //readConfig()
+        //DBConnection.setProperties(driver, jdbcUrl, username, password)
     }
 
     fun setProperties(jdbcUrl2: String, username2: String, password2: String, driver2: String)
@@ -43,30 +49,32 @@ class UrlDatabaseService : DatabaseService<UrlDataRecord>()
     }
 
 
-    override fun persistData(heap: ArrayList<UrlDataRecord>): Boolean
+    override fun persistData(heap: List<UrlDataRecord>): Boolean
     {
-
-
         var allSaveSuccess = false
 
         var con = DBConnection.getConnection()
-        var timeOut: Long = ReadConfig.config.dataBase.databaseConnectionTimeout
+        var timeOut = 1000L
         while (con == null)
         {
             con = DBConnection.getConnection()
+            if (con != null)
+                break
+
+            Thread.sleep(timeOut)
             timeOut *= 2
             if (timeOut == ReadConfig.config.dataBase.databaseConnectionMaxTimeout)
                 timeOut = 1000
-            Thread.sleep(timeOut)
         }
-        val normalizedUrlDao = NormalizedUrlDao(con)
+
+        val normalizedUrlDao = NormalizedUrlDao(con!!)
         val originalUrlDao = OriginalUrlDao(con)
         try
         {
-            con?.autoCommit = false
+            con.autoCommit = false
             normalizedUrlDao.persist(heap)
             originalUrlDao.persist(heap)
-            con?.commit()
+            con.commit()
             InitMeter.markDatabaseWrite(heap.size.toLong())
             allSaveSuccess = true
         }
@@ -76,13 +84,14 @@ class UrlDatabaseService : DatabaseService<UrlDataRecord>()
         }
         catch (e: SQLException)
         {
-            con?.rollback()
+            con.rollback()
             logger.error(e) { "Failed to write in database" }
         }
         finally
         {
-            con?.close()
+            con.close()
         }
+
         return allSaveSuccess
     }
 

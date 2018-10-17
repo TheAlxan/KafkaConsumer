@@ -25,7 +25,7 @@ class NormalizedUrlDao {
     }
 
 
-    fun persist(heap:ArrayList<UrlDataRecord>){
+    fun persist(heap:List<UrlDataRecord>){
         heap.forEach{
             val hash = DigestUtils.sha1Hex(it.normalizedUrl)
             var normalizedUrl = it.normalizedUrl.replace("\"","")

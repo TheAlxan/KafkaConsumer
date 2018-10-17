@@ -14,7 +14,8 @@ object DBConnection {
     private val ds = HikariDataSource()
 
     fun setProperties(driver:String,jdbcUrl:String,username:String,password:String) {
-        ds.maximumPoolSize = ReadConfig.config.dataBase.maximumPoolSize
+//        ds.maximumPoolSize = ReadConfig.config.dataBase.maximumPoolSize
+        ds.maximumPoolSize = 50
         ds.driverClassName = driver
         ds.jdbcUrl = jdbcUrl
         ds.username = username

@@ -13,7 +13,8 @@ import spark.kotlin.get
  */
 class SparkServer {
     fun metricService() {
-        port(ReadConfig.config.spark.port)
+//        port(ReadConfig.config.spark.port)
+        port(8001)
 
         get("/metric") {
 

@@ -21,7 +21,7 @@ class OriginalUrlDao {
         preparedStatement = con?.prepareStatement("INSERT INTO orginalUrl (url,hash,normalizedUrl) VALUES (? , ? , ?) on duplicate key update hash = hash;")
     }
 
-    fun persist(heap:ArrayList<UrlDataRecord>){
+    fun persist(heap:List<UrlDataRecord>){
         heap.forEach{
             it.originalUrls.forEach { itt:String ->
                 preparedStatement?.setString(1,itt)

@@ -125,6 +125,14 @@
             <version>1.0.0-alpha</version>
         </dependency>
 
+        <!--Mockk-->
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <version>1.8.9</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

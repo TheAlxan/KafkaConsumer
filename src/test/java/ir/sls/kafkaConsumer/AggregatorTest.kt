@@ -45,7 +45,7 @@ class AggregatorTest: DatabaseTest("/CreateTables.sql") {
     @Ignore
     @Test
     fun testDatabase(){
-        val urlDatabaseService = UrlDatabaseService();
+        val urlDatabaseService = UrlDatabaseService()
         urlDatabaseService.setProperties(jdbcUrl,username,password,driver)
         val urlProcessService = UrlProcessService(urlDatabaseService)
         urlProcessService.processData(getDataForAggregation())
